@@ -2,6 +2,26 @@
 
 import sys, copy
 
+def intersectLocInfo(f):
+    f.write("intersectLocInfo( 0, _, 0 ).\n")
+    f.write("intersectLocInfo( _, 0, 0 ).\n")
+    f.write("intersectLocInfo( 1, Y, Y ).\n")
+    f.write("intersectLocInfo( X, 1, X ).\n")
+
+    f.write("intersectRow( [], [], [] ).\n\n")
+
+    f.write("intersectRow( [PH|PT], [NH|NT], [FH|FT] ) :-\n")
+    f.write("            intersectLocInfo( PH, NH, FH ),\n")
+    f.write("            intersectRow( PT, NT, FT ).\n\n")
+
+    f.write("intersectLocs( [], [], [] ).\n\n")
+
+    f.write("intersectLocs( [PrevRow|PrevLocs], [NewRow|NewLocs]," +
+                            "FinalLocs ) :-\n")
+    f.write("             intersectRow( PrevRow, NewRow, FinalRow ),\n")
+    f.write("             intersectLocs( PrevLocs, NewLocs, RestOfRows ),\n")
+    f.write("             FinalLocs = [ FinalRow | RestOfRows ].\n\n")
+
 def isBarcenasAround(f, size):
     possibleLocs = list()
     for x in xrange(size):
@@ -18,6 +38,56 @@ def isBarcenasAround(f, size):
             f.write("isBarcenasAround( "+ str(x+1) + ", " + str(y+1) + ", 1, "
                     + str(reversedWorld) + " ).\n")
             pos += 1
+
+    f.write("\n\n")
+
+def rajoyAndCospedal(f, size):
+
+    leftWorld = barcenasLeft(size)
+    rightWorld = barcenasRight(size)
+
+    for column in xrange(size):
+        f.write("rajoyAndCospedal( " + str(column+1) + ", 0, 0, " +
+                str(rightWorld[column]) + " ).\n")
+
+    f.write("\n\n")
+    for column in xrange(size):
+        f.write("rajoyAndCospedal( " + str(column+1) + ", 1, 0, " +
+                str(leftWorld[column]) + " ).\n")
+
+    f.write("\n\n")
+    for column in xrange(size):
+        f.write("rajoyAndCospedal( " + str(column+1) + ", 0, 1, " +
+                str(leftWorld[column]) + " ).\n")
+
+    f.write("\n\n")
+    for column in xrange(size):
+        f.write("rajoyAndCospedal( " + str(column+1) + ", 1, 1, " +
+                str(rightWorld[column]) + " ).\n")
+
+def barcenasLeft(size):
+    world = createWorld(size)
+    leftWorld = list()
+
+    for y in reversed(xrange(size)):
+        for x in xrange(size):
+            world[x][y] = 0
+
+        leftWorld.insert(0,copy.deepcopy(world))
+
+    return leftWorld
+
+def barcenasRight(size):
+    world = createWorld(size)
+    rightWorld = list()
+
+    for y in xrange(size):
+        for x in xrange(size):
+            world[x][y] = 0
+
+        rightWorld.append(copy.deepcopy(world))
+
+    return rightWorld
 
 def setPossibleLocs(x, y, w):
     world = createWorld(w)
@@ -46,26 +116,6 @@ def reverseWorld(pl, size):
     pl[0][0] = 0
     return pl
 
-def intersectLocInfo(f):
-    f.write("intersectLocInfo( 0, _, 0 ).\n")
-    f.write("intersectLocInfo( _, 0, 0 ).\n")
-    f.write("intersectLocInfo( 1, Y, Y ).\n")
-    f.write("intersectLocInfo( X, 1, X ).\n")
-
-    f.write("intersectRow( [], [], [] ).\n")
-
-    f.write("intersectRow( [PH|PT], [NH|NT], [FH|FT] ) :-\n")
-    f.write("            intersectLocInfo( PH, NH, FH ),\n")
-    f.write("            intersectRow( PT, NT, FT ).\n")
-
-    f.write("intersectLocs( [], [], [] ).\n")
-
-    f.write("intersectLocs( [PrevRow|PrevLocs], [NewRow|NewLocs]," +
-                            "FinalLocs ) :-\n")
-    f.write("             intersectRow( PrevRow, NewRow, FinalRow ),\n")
-    f.write("             intersectLocs( PrevLocs, NewLocs, RestOfRows ),\n")
-    f.write("             FinalLocs = [ FinalRow | RestOfRows ].\n\n")
-
 def createWorld(n):
     world = [[1 for x in xrange(n)] for y in xrange(n)]
     world[0][0] = 0
@@ -81,5 +131,6 @@ if __name__ == "__main__":
 
         intersectLocInfo(f)
         isBarcenasAround(f, size)
+        rajoyAndCospedal(f, size)
 
         f.close()
