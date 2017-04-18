@@ -22,6 +22,9 @@ def intersectLocInfo(f):
     f.write("             intersectLocs( PrevLocs, NewLocs, RestOfRows ),\n")
     f.write("             FinalLocs = [ FinalRow | RestOfRows ].\n\n")
 
+"""
+Sets the location for when barcenas is around or not.
+"""
 def isBarcenasAround(f, size):
     possibleLocs = list()
     for x in xrange(size):
@@ -41,30 +44,49 @@ def isBarcenasAround(f, size):
 
     f.write("\n\n")
 
+"""
+Sets the diferent situations for each response given by Rajoy and Cospedal even
+if they are not found.
+"""
 def rajoyAndCospedal(f, size):
-
     leftWorld = barcenasLeft(size)
     rightWorld = barcenasRight(size)
+    world = createWorld(size)
 
+    """Rajoy or Cospedal not found, everything stays the same."""
+    f.write("rajoyAndCospedal( _, -1, _, " + str(world) + " ).\n")
+    f.write("rajoyAndCospedal( _, _, -1, " + str(world) + " ).\n\n\n")
+
+    """Mariano sais right, cospedal sais not lying."""
     for column in xrange(size):
         f.write("rajoyAndCospedal( " + str(column+1) + ", 0, 0, " +
                 str(rightWorld[column]) + " ).\n")
 
     f.write("\n\n")
+
+    """Mariano sais left, cospedal sais not lying."""
     for column in xrange(size):
         f.write("rajoyAndCospedal( " + str(column+1) + ", 1, 0, " +
                 str(leftWorld[column]) + " ).\n")
 
     f.write("\n\n")
+
+    """Mariano sais left, cospedal sais lying."""
     for column in xrange(size):
         f.write("rajoyAndCospedal( " + str(column+1) + ", 0, 1, " +
                 str(leftWorld[column]) + " ).\n")
 
     f.write("\n\n")
+
+    """Mariano sais right, cospedal sais lying."""
     for column in xrange(size):
         f.write("rajoyAndCospedal( " + str(column+1) + ", 1, 1, " +
                 str(rightWorld[column]) + " ).\n")
 
+"""
+Locations where barcenas can be if Rajoy sais left and is not lying or if sais
+right and is lying.
+"""
 def barcenasLeft(size):
     world = createWorld(size)
     leftWorld = list()
@@ -77,6 +99,10 @@ def barcenasLeft(size):
 
     return leftWorld
 
+"""
+Locations where barcenas can be if Rajoy sais right and is not lying or if sais
+left and is lying.
+"""
 def barcenasRight(size):
     world = createWorld(size)
     rightWorld = list()
@@ -89,9 +115,11 @@ def barcenasRight(size):
 
     return rightWorld
 
+"""
+Sets locations where Barcenas can't be leaving the ones where he can be.
+"""
 def setPossibleLocs(x, y, w):
     world = createWorld(w)
-
     world[x][y] = 0
 
     if y+1 < size:
@@ -105,6 +133,10 @@ def setPossibleLocs(x, y, w):
 
     return world
 
+"""
+Changes the 1 to 0 an vice versa so we can obtain the locations of Barcenas
+given the location where
+"""
 def reverseWorld(pl, size):
     for x in xrange(size):
         for y in xrange(size):
@@ -116,6 +148,9 @@ def reverseWorld(pl, size):
     pl[0][0] = 0
     return pl
 
+"""
+World with dimension NxN.
+"""
 def createWorld(n):
     world = [[1 for x in xrange(n)] for y in xrange(n)]
     world[0][0] = 0
