@@ -45,8 +45,8 @@ def isBarcenasAround(f, size):
     f.write("\n\n")
 
 """
-Sets the diferent situations for each response given by Rajoy and Cospedal even
-if they are not found.
+Sets the diferent situations for each response given by Rajoy and Cospedal
+even if they are not found.
 """
 def rajoyAndCospedal(f, size):
     leftWorld = barcenasLeft(size)
@@ -83,6 +83,35 @@ def rajoyAndCospedal(f, size):
         f.write("rajoyAndCospedal( " + str(column+1) + ", 1, 1, " +
                 str(rightWorld[column]) + " ).\n")
 
+    f.write("\n\n")
+
+"""
+Updates the information about Rajoy if he its found or not.
+"""
+def rajoyInfo(f):
+    f.write("rajoyInfo( RajoyY, RajoyAns, _, -1, RajoyY, RajoyAns )\n")
+    f.write("rajoyInfo( _, _, RajoyY, RajoyAns, RajoyY, RajoyAns )\n\n\n")
+
+"""
+Updates the information about Cospedal if she is found or not.
+"""
+def cospedalInfo(f):
+    f.write("cospedalInfo( CospedalY, CospedalAns, _, -1, CospedalY, " +
+            "CospedalAns )\n")
+    f.write("cospedalInfo( _, _, CospedalY, CospedalAns, CospedalY, CospedalAns )\n\n\n")
+
+"""
+no fuck idea how to do dis. :c )
+"""
+def updatePosBarcenasLocs(f):
+    f.write("updatePosBarcenasLocs( PrevLocs, AgentPosX, AgentPosY, " +
+            "SmellXY, RajoyAns, CospedalAns, PrevY, FinalLocs )\n")
+    f.write("   :-\n")
+    f.write("      isBarcenasAround( AgentPosX, AgentPosY, SmellXY, NewLocs " +
+            " ),\n")
+    f.write("      intersectLocs( PrevLocs, NewLocs, FinalLocs ), !,\n")
+    f.write("      write( 'Estado resultante: ' ), write( FinalLocs ), nl.\n")
+
 """
 Locations where barcenas can be if Rajoy sais left and is not lying or if sais
 right and is lying.
@@ -108,8 +137,9 @@ def barcenasRight(size):
     rightWorld = list()
 
     for y in xrange(size):
-        for x in xrange(size):
-            world[x][y] = 0
+        if y != 0:
+            for x in xrange(size):
+                world[x][y-1] = 0
 
         rightWorld.append(copy.deepcopy(world))
 
@@ -167,5 +197,7 @@ if __name__ == "__main__":
         intersectLocInfo(f)
         isBarcenasAround(f, size)
         rajoyAndCospedal(f, size)
-
+        rajoyInfo(f)
+        cospedalInfo(f)
+        updatePosBarcenasLocs(f)
         f.close()
