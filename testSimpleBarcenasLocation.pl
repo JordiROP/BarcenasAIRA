@@ -115,9 +115,9 @@ if we next  move to 1,2 and it still does not smell:
      [[0,1,1],[1,1,1],[1,1,1]]
 
 */
-recPosBarcenasLocs(PrevLocs, [], PrevLocs).
+execSeqofSteps(PrevLocs, [], PrevLocs).
 
-recPosBarcenasLocs(PrevLocs, [[X,Y,S]|RS], FinalLocs)
+execSeqofSteps(PrevLocs, [[X,Y,S]|RS], FinalLocs)
     :-
         updatePosBarcenasLocs(PrevLocs, X, Y, S, NewLocs),
         recPosBarcenasLocs(NewLocs, RS, FinalLocs).

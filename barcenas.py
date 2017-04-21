@@ -1,6 +1,13 @@
 #!/usr/bin/python
 
-import sys, copy
+import sys
+import copy
+import os
+
+
+def module(f):
+    f.write(":- use_module(library(lists)).\n\n\n\n\n")
+
 
 def intersectLocInfo(f):
     f.write("intersectLocInfo( 0, _, 0 ).\n")
@@ -17,10 +24,11 @@ def intersectLocInfo(f):
     f.write("intersectLocs( [], [], [] ).\n\n")
 
     f.write("intersectLocs( [PrevRow|PrevLocs], [NewRow|NewLocs]," +
-                            "FinalLocs ) :-\n")
+            "FinalLocs ) :-\n")
     f.write("             intersectRow( PrevRow, NewRow, FinalRow ),\n")
     f.write("             intersectLocs( PrevLocs, NewLocs, RestOfRows ),\n")
     f.write("             FinalLocs = [ FinalRow | RestOfRows ].\n\n")
+
 
 """
 Sets the location for when barcenas is around or not.
@@ -31,18 +39,19 @@ def isBarcenasAround(f, size):
         for y in xrange(size):
             world = setPossibleLocs(x, y, size)
             possibleLocs.append(world)
-            f.write("isBarcenasAround( "+ str(x+1) + ", " + str(y+1) +
+            f.write("isBarcenasAround( " + str(x+1) + ", " + str(y+1) +
                     ", 0, " + str(world) + " ).\n")
     f.write("\n\n")
     pos = 0
     for x in xrange(size):
         for y in xrange(size):
             reversedWorld = reverseWorld(possibleLocs[pos], size)
-            f.write("isBarcenasAround( "+ str(x+1) + ", " + str(y+1) + ", 1, "
+            f.write("isBarcenasAround( " + str(x+1) + ", " + str(y+1) + ", 1, "
                     + str(reversedWorld) + " ).\n")
             pos += 1
 
     f.write("\n\n")
+
 
 """
 Sets the diferent situations for each response given by Rajoy and Cospedal
@@ -85,6 +94,7 @@ def rajoyAndCospedal(f, size):
 
     f.write("\n\n")
 
+
 """
 Updates the information about Rajoy if he its found or not.
 """
@@ -92,25 +102,58 @@ def rajoyInfo(f):
     f.write("rajoyInfo( RajoyY, RajoyAns, _, -1, RajoyY, RajoyAns )\n")
     f.write("rajoyInfo( _, _, RajoyY, RajoyAns, RajoyY, RajoyAns )\n\n\n")
 
+
 """
 Updates the information about Cospedal if she is found or not.
 """
 def cospedalInfo(f):
-    f.write("cospedalInfo( CospedalY, CospedalAns, _, -1, CospedalY, " +
-            "CospedalAns )\n")
-    f.write("cospedalInfo( _, _, CospedalY, CospedalAns, CospedalY, CospedalAns )\n\n\n")
+    f.write("cospedalInfo( CospedalAns, -1, CospedalAns )\n")
+    f.write("cospedalInfo( _, CospedalAns, CospedalAns )\n\n\n")
+
+
+def execSeqofSteps(f):
+    f.write("execSeqofSteps(PrevLocs, [], _, _, _, PrevLocs).\n")
+
+    f.write("execSeqofSteps(PrevLocs, [[X,Y,S,M,C]|RS], PasY, PasM, PasC, " +
+            " FinalLocs\n")
+    f.write("    :-\n")
+    f.write("        updateSequenceOfSteps(PrevLocs, [X, Y, S, M, C], PasY, " +
+            "PasM, PasC, NewLocs),\n")
+    f.write("        execSeqofSteps(NewLocs, RS, FinalLocs).\n\n\n")
+
 
 """
-no fuck idea how to do dis. :c )
 """
-def updatePosBarcenasLocs(f):
-    f.write("updatePosBarcenasLocs( PrevLocs, AgentPosX, AgentPosY, " +
-            "SmellXY, RajoyAns, CospedalAns, PrevY, FinalLocs )\n")
+def updateSequenceOfSteps(f):
+    f.write("updateSequenceOfSteps( S0, SequenceOfSteps, PasY, PasM, PasC, SF )\n")
     f.write("   :-\n")
-    f.write("      isBarcenasAround( AgentPosX, AgentPosY, SmellXY, NewLocs " +
-            " ),\n")
+    f.write("      nth0( 0, SequenceOfSteps, X ),\n")
+    f.write("      nth0( 1, SequenceOfSteps, Y ),\n")
+    f.write("      nth0( 2, SequenceOfSteps, S ),\n")
+    f.write("      nth0( 3, SequenceOfSteps, M ),\n")
+    f.write("      nth0( 4, SequenceOfSteps, C ),\n")
+    f.write("      write( 'Result Pas: ' ), write( [X,Y,S,M,C ] ), nl.\n")
+    f.write("      isBarcenasAround( X, Y, S, NewLocs ),\n")
     f.write("      intersectLocs( PrevLocs, NewLocs, FinalLocs ), !,\n")
-    f.write("      write( 'Estado resultante: ' ), write( FinalLocs ), nl.\n")
+    """"""""""""""""""""""""""""""""""""""""""
+    f.write("      rajoyInfo( PasY, PasM, Y, M, FutY, FutM ),\n")
+    f.write("      cospedalInfo( PasC, C, FutC ),\n")
+    f.write("      rajoyAndCospedal( FutY, FutM, FutC, RCLocs),\n")
+    """"""""""""""""""""""""""""""""""""""""""
+    f.write("      intersectLocs( FinalLocs, RCLocs, FinalLocs ), !,\n")
+    f.write("      reverse(FinalLocs, World),\n")
+    f.write("      writeWorld( World ), !,\n\n\n")
+
+
+"""
+Prints the world in form of table.
+"""
+def writeWorld(f):
+    f.write("writeWorld( [] ) :- !.\n")
+    f.write("writeWorld( [Row|RestRows] ) :-\n")
+    f.write("      write(Row),nl,\n")
+    f.write("      writeWorld(RestRows).\n")
+
 
 """
 Locations where barcenas can be if Rajoy sais left and is not lying or if sais
@@ -124,9 +167,10 @@ def barcenasLeft(size):
         for x in xrange(size):
             world[x][y] = 0
 
-        leftWorld.insert(0,copy.deepcopy(world))
+        leftWorld.insert(0, copy.deepcopy(world))
 
     return leftWorld
+
 
 """
 Locations where barcenas can be if Rajoy sais right and is not lying or if sais
@@ -163,6 +207,7 @@ def setPossibleLocs(x, y, w):
 
     return world
 
+
 """
 Changes the 1 to 0 an vice versa so we can obtain the locations of Barcenas
 given the location where
@@ -178,6 +223,14 @@ def reverseWorld(pl, size):
     pl[0][0] = 0
     return pl
 
+
+def call(f, n, plFile):
+    world = str(createWorld(n))
+
+    line = "execSeqofSteps(" + world + ",[" + sys.argv[2] + "],_,_,_,_)."
+    command = "swipl -q -f " + plFile + " -t " + "'" + line + "'"
+    os.system(command)
+
 """
 World with dimension NxN.
 """
@@ -186,18 +239,24 @@ def createWorld(n):
     world[0][0] = 0
     return world
 
+
 if __name__ == "__main__":
     if len(sys.argv) < 3:
         print "Usage: ./barcenas.py [world size] [sequence of steps]"
     else:
         size = int(sys.argv[1])
-        f = open("barcenas.pl", 'w')
+        plFile = "findingBarcenas" + str(size) + "x" + str(size) + ".pl"
+        f = open(plFile, 'w')
         f.truncate()
-
+        module(f)
         intersectLocInfo(f)
         isBarcenasAround(f, size)
         rajoyAndCospedal(f, size)
         rajoyInfo(f)
         cospedalInfo(f)
-        updatePosBarcenasLocs(f)
+        execSeqofSteps(f)
+        updateSequenceOfSteps(f)
+        writeWorld(f)
         f.close()
+
+        call(f, size, plFile)
