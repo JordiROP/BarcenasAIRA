@@ -4,11 +4,14 @@ import sys
 import copy
 import os
 
-
+"""
+Writes the module needed to extract te elements of a list by it's index.
+"""
 def module(f):
     f.write(":- use_module(library(lists)).\n\n\n\n\n")
 
-
+"""
+"""
 def intersectLocInfo(f):
     f.write("intersectLocInfo( 0, _, 0 ).\n")
     f.write("intersectLocInfo( _, 0, 0 ).\n")
@@ -96,7 +99,7 @@ def rajoyAndCospedal(f, size):
 
 
 """
-Updates the information about Rajoy if he its found or not.
+Updates the information about Rajoy if he is found or not.
 """
 def rajoyInfo(f):
     f.write("rajoyInfo( RajoyY, RajoyAns, _, -1, RajoyY, RajoyAns ).\n")
@@ -111,6 +114,10 @@ def cospedalInfo(f):
     f.write("cospedalInfo( _, CospedalAns, CospedalAns ).\n\n\n")
 
 
+"""
+Writes the method and it's recursive version used to search for Barcenas
+until the list of steps is empty.
+"""
 def execSeqofSteps(f):
     f.write("execSeqofSteps( PrevLocs, [], _, _, _, PrevLocs) :- !.\n")
 
@@ -225,6 +232,10 @@ def reverseWorld(pl, size):
     return pl
 
 
+"""
+Makes the call for the execution of the prolog program with the dimensions
+and the steps passed by arguments.
+"""
 def call(f, n, plFile):
     world = str(createWorld(n))
 
