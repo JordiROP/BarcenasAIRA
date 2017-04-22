@@ -1,2 +1,0 @@
-?- unknown(_,fail).
-

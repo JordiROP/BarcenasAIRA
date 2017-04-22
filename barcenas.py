@@ -99,50 +99,50 @@ def rajoyAndCospedal(f, size):
 Updates the information about Rajoy if he its found or not.
 """
 def rajoyInfo(f):
-    f.write("rajoyInfo( RajoyY, RajoyAns, _, -1, RajoyY, RajoyAns )\n")
-    f.write("rajoyInfo( _, _, RajoyY, RajoyAns, RajoyY, RajoyAns )\n\n\n")
+    f.write("rajoyInfo( RajoyY, RajoyAns, _, -1, RajoyY, RajoyAns ).\n")
+    f.write("rajoyInfo( _, _, RajoyY, RajoyAns, RajoyY, RajoyAns ).\n\n\n")
 
 
 """
 Updates the information about Cospedal if she is found or not.
 """
 def cospedalInfo(f):
-    f.write("cospedalInfo( CospedalAns, -1, CospedalAns )\n")
-    f.write("cospedalInfo( _, CospedalAns, CospedalAns )\n\n\n")
+    f.write("cospedalInfo( CospedalAns, -1, CospedalAns ).\n")
+    f.write("cospedalInfo( _, CospedalAns, CospedalAns ).\n\n\n")
 
 
 def execSeqofSteps(f):
-    f.write("execSeqofSteps(PrevLocs, [], _, _, _, PrevLocs).\n")
+    f.write("execSeqofSteps( PrevLocs, [], _, _, _, PrevLocs) :- !.\n")
 
-    f.write("execSeqofSteps(PrevLocs, [[X,Y,S,M,C]|RS], PasY, PasM, PasC, " +
-            " FinalLocs\n")
+    f.write("execSeqofSteps( PrevLocs, [[X,Y,S,M,C]|RS], PasY, PasM, PasC, " +
+            " FinalLocs)\n")
     f.write("    :-\n")
-    f.write("        updateSequenceOfSteps(PrevLocs, [X, Y, S, M, C], PasY, " +
-            "PasM, PasC, NewLocs),\n")
-    f.write("        execSeqofSteps(NewLocs, RS, FinalLocs).\n\n\n")
+    f.write("        updateSequenceOfSteps( PrevLocs, [X, Y, S, M, C], PasY, " +
+            "PasM, FutY, FutM, PasC, FutC, InterMidLocs),\n")
+    f.write("        execSeqofSteps( InterMidLocs, RS, FutY, FutM, FutC," +
+            " FinalLocs).\n\n\n")
 
 
 """
 """
 def updateSequenceOfSteps(f):
-    f.write("updateSequenceOfSteps( S0, SequenceOfSteps, PasY, PasM, PasC, SF )\n")
+    f.write("updateSequenceOfSteps( PrevLocs, SequenceOfSteps, PasY, PasM, " +
+            "FutY, FutM, PasC, FutC, FinalLocs )\n")
     f.write("   :-\n")
     f.write("      nth0( 0, SequenceOfSteps, X ),\n")
     f.write("      nth0( 1, SequenceOfSteps, Y ),\n")
     f.write("      nth0( 2, SequenceOfSteps, S ),\n")
     f.write("      nth0( 3, SequenceOfSteps, M ),\n")
     f.write("      nth0( 4, SequenceOfSteps, C ),\n")
-    f.write("      write( 'Result Pas: ' ), write( [X,Y,S,M,C ] ), nl.\n")
     f.write("      isBarcenasAround( X, Y, S, NewLocs ),\n")
-    f.write("      intersectLocs( PrevLocs, NewLocs, FinalLocs ), !,\n")
-    """"""""""""""""""""""""""""""""""""""""""
+    f.write("      intersectLocs( PrevLocs, NewLocs, MidLocs ), !,\n")
     f.write("      rajoyInfo( PasY, PasM, Y, M, FutY, FutM ),\n")
     f.write("      cospedalInfo( PasC, C, FutC ),\n")
     f.write("      rajoyAndCospedal( FutY, FutM, FutC, RCLocs),\n")
-    """"""""""""""""""""""""""""""""""""""""""
-    f.write("      intersectLocs( FinalLocs, RCLocs, FinalLocs ), !,\n")
+    f.write("      intersectLocs( MidLocs, RCLocs, FinalLocs ), !,\n")
     f.write("      reverse(FinalLocs, World),\n")
-    f.write("      writeWorld( World ), !,\n\n\n")
+    f.write("      write( 'Result Step: ' ), write( [X,Y,S,M,C] ), nl,\n")
+    f.write("      writeWorld( World ).\n\n\n")
 
 
 """
@@ -189,6 +189,7 @@ def barcenasRight(size):
 
     return rightWorld
 
+
 """
 Sets locations where Barcenas can't be leaving the ones where he can be.
 """
@@ -230,6 +231,7 @@ def call(f, n, plFile):
     line = "execSeqofSteps(" + world + ",[" + sys.argv[2] + "],_,_,_,_)."
     command = "swipl -q -f " + plFile + " -t " + "'" + line + "'"
     os.system(command)
+
 
 """
 World with dimension NxN.
