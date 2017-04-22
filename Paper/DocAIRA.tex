@@ -29,7 +29,7 @@
 		%----------------------------------------------------------------------------------------
 		
 		\HRule \\[0.4cm]
-		{ \huge \bfseries Pràctica 2, Festa major a Hivèrnia}\\[0.4cm] % Title of your document
+		{ \huge \bfseries Pràctica 1, Agents Intel·ligents en CP1}\\[0.4cm] % Title of your document
 		\HRule \\[1.5cm] 
 		%----------------------------------------------------------------------------------------
 		%	AUTHOR SECTION
@@ -85,10 +85,50 @@ Funció que s'encarrega de processar el pas passat per argument, aquest executar
 \item FinalLocs: Estat del món un cop realitzat el pas passat per argument amb les possibles localitzacions de Bàrcenas.
 \end{itemize}
 \subsection{isBarcenasAround:}
+En aquest apartat s'escriuen totes les possibilitats dels estats de les caselles donat que el detector d'olor dona 1 o 0, la funció s'encarrega d'escollir l'adequat a l'hora de passar els arguments per tal de retornar l'estat del món adequat a la resposta del detector d'olor segons les posicions en les quals es trobin per tal de realitzar la intersecció amb l'estat actual del món.\\
+\textbf{Arguments:}
+\begin{itemize}
+\item X: Posició X del món.
+\item Y: Posició Y del món.
+\item S: Resposta del detector d'olor per a la posició X Y.
+\item NewLocs: Noves localitzacions del món per fer la intersecció.
+\end{itemize}
 \subsection{intersectLocs:}
+Realitza la intersecció del primer paràmetre PrevLocs/MidLocs amb la del segon paràmetre NewLocs/RCLocs, aquests es combinen per tal d'obtenir les noves localitzacions que es guardaran al tercer paràmetre MidLocs/FinalLocs.\\
+\textbf{Arguments:}
+\begin{itemize}
+\item PrevLocs/MidLocs: Localitzacions prèvies a la primera intersecció o localitzacions posteriors a la primera intersecció, en el primer cas obtindrem les localitzacions inicials per a cada volta en el segon cas obtindrem les localitzacions després d'haver realitzat la primera intersecció.
+\item NewLocs/RCLocs: NewLocs són les localitzacions obtingudes per isBarcenasAround i que realitzaran la intersecció amb PrevLocs, RCLocs són les localitzacions obtingudes per rajoyAndCospedal i que realitzaran la intersecció amb MidLocs.
+\item MidLocs/FinalLocs: Resultats d'haver realitzat les interseccions.
+\end{itemize}
 \subsection{rajoyInfo:}
+\textbf{Arguments:}
+\begin{itemize}
+\item PasY: Columna on s'ha trobat o no previament a Rajoy.
+\item PasM: Resposta prévia de Rajoy en cas de que s'hagi trobat en cas contrari -1.
+\item Y: Columna actual en la que podem haber trobat a Rajoy o no.
+\item M: Resposta actual que ens pot haber donat Rajoy o en cas contrari -1.
+\item FutY: Actualització de la posició on hem trobat a Rajoy si l'hem trobat.
+\item FutM: Actualització de la resposta que ens ha donat si ens l'ha donat, en cas contrari -1.
+\end{itemize}
 \subsection{cospedalInfo:}
+\textbf{Arguments:}
+\begin{itemize}
+\item PasC: Resposta prèvia de Cospedal si s'habia trobat prèviament en cas contrari -1.
+\item C: Resposta actual que ens pot haber donat Cospedal en cas de trobar-la en cas contrarí -1.
+\item FutC: Actualització del estat de la respota de Cospedal en cas de que hi hagí canvi, si encara no s'ha trobat continuará sent -1
+\end{itemize}
 \subsection{rajoyAndCospedal:}
-\subsection{intersectLocs:}
+\textbf{Arguments:}
+\begin{itemize}
+\item FutY:
+\item FutM:
+\item FutC:
+\item RCLocs:
+\end{itemize}
 \subsection{writeWorld:}
+\textbf{Arguments:}
+\begin{itemize}
+\item World:
+\end{itemize}
 \end{document}
