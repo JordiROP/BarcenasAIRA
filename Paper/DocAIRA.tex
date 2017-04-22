@@ -66,14 +66,24 @@
 \pagenumbering{arabic}
 \section{Funcions:}
 \subsection{execSeqofSteps:}
-Funcio recursiva que cridará updateSequenceOfSteps per tal de executar tots els passos, aquesta finalitzará quan la llista de passos es quedi buida.
+Funció recursiva que cridarà updateSequenceOfSteps per tal d'executar tots els passos, aquesta finalitzarà quan la llista de passos es quedi buida.\\
 \textbf{Arguments:}
 \begin{itemize}
-\item PrevLocs: Matriu NxN que representa el mon en el qual em de trobar a barcenas, aquesta inicialment será una matriu tot a uns a excepció de la posició 1,1 que será 0 sent aquesta la posició inicial.
-\item Llista de passos: Llista de passos a seguir per tal de buscar a Barcenas, aquesta es composa de X,Y direccions a les quals ens anem desplaçant per a realitzar la cerca, S, detector de olor de barcenas, M i C, respostes donades per Mariano i Cospedal.
-\item NewLocs: Matriu NxN actualitzada amb les noves possibles localitzacions de Barcenas després de executar cada un dels passos de la llista.
+\item PrevLocs: Matriu NxN que representa el món en el qual em de trobar a Bàrcenas, aquesta inicialment serà una matriu tot a uns a excepció de la posició 1,1 que serà 0 sent aquesta la posició inicial.
+\item Llista de passos: Llista de passos a seguir per tal de buscar a Bàrcenas, aquesta es compon de X, Y direccions a les quals ens anem desplaçant per a realitzar la cerca, S, detector d'olor de Bàrcenas, M i C, respostes donades per Mariano i Cospedal.
+\item FinalLocs: Matriu NxN actualitzada amb les noves possibles localitzacions de Bàrcenas després d'executar cada un dels passos de la llista.
+\item Pas[]: Aquests arguments ens permeten guardar la Y on es va trobar Rajoy, la seva resposta així com la resposta de Cospedal.
 \end{itemize}
 \subsection{updateSequenceOfSteps:}
+Funció que s'encarrega de processar el pas passat per argument, aquest executarà totes les altres funcions per tal de realitzar aquest procés.\\
+\textbf{Arguments:}
+\begin{itemize}
+\item PrevLocs: Matriu NxN que representa el món en el qual em de trobar a Bàrcenas, aquesta inicialment serà una matriu tot a uns a excepció de la posició 1,1 que serà 0 sent aquesta la posició inicial.
+\item SequenceOfSteps: Passos a realitzar en aquell moment, aquests es componen de les posicions X, Y del món on hem de buscar a Bàrcenas, S detecto d'olor, M Mariano i C Cospedal.
+\item Pas[]: Argument on es passen els estats previs per a la columna on hem trobat a Mariano, la resposta de Mariano i la resposta de Cospedal.
+\item Fut[]: Argument on es guardarà la Columna on hem trobat a Mariano en cas que el trobem, la resposta de Mariano si l'hem trobat, en cas contrari guardarem -1, i la resposta de Cospedal si l'hem trobat, en cas contrari guardem -1.
+\item FinalLocs: Estat del món un cop realitzat el pas passat per argument amb les possibles localitzacions de Bàrcenas.
+\end{itemize}
 \subsection{isBarcenasAround:}
 \subsection{intersectLocs:}
 \subsection{rajoyInfo:}
