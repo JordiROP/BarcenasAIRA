@@ -193,7 +193,8 @@ def execSeqofSteps(f):
 
 
 """
-
+Executes the sequence of steps so we can update the locations where Bàrcenas
+can be or not.
 """
 def updateSequenceOfSteps(f):
     f.write("/*Updates the locations where Bàrcenas can be, the pas\n")

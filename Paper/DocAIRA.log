@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2017.1.9)  23 APR 2017 16:06
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2017.1.9)  23 APR 2017 23:58
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1220,31 +1220,36 @@ Underfull \hbox (badness 10000) in paragraph at lines 176--178
  []
 
 [6]
-Overfull \hbox (26.66515pt too wide) in paragraph at lines 203--207
+Underfull \hbox (badness 10000) in paragraph at lines 199--201
+
+ []
+
+
+Overfull \hbox (26.66515pt too wide) in paragraph at lines 204--208
 []$\T1/lmtt/m/n/10.95 http : / / stackoverflow . com / questions / 12939425 / p
 rolog -[] access -[] specific -[]
  []
 
 
-Overfull \hbox (25.66515pt too wide) in paragraph at lines 203--207
+Overfull \hbox (25.66515pt too wide) in paragraph at lines 204--208
 []$\T1/lmtt/m/n/10.95 https : / / cv . udl . cat / access / content / group / 1
 02040 -[] 1617 / labs / inference /
  []
 
 [7]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 207.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 207.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 208.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 208.
  (./DocAIRA.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 207.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 207.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 208.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 208.
 Package rerunfilecheck Info: File `DocAIRA.out' has not changed.
 (rerunfilecheck)             Checksum: 82FA75798443B6003F681519023BF370;775.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 207.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 208.
  ) 
 Here is how much of TeX's memory you used:
  27110 strings out of 493013
  647437 string characters out of 6133344
- 867822 words of memory out of 5000000
+ 868822 words of memory out of 5000000
  30175 multiletter control sequences out of 15000+600000
  55784 words of font info for 41 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -1261,7 +1266,7 @@ texlive/2016/texmf-dist/fonts/type1/public/lm/lmr12.pfb></usr/local/texlive/201
 6/texmf-dist/fonts/type1/public/lm/lmri12.pfb></usr/local/texlive/2016/texmf-di
 st/fonts/type1/public/lm/lmsy10.pfb></usr/local/texlive/2016/texmf-dist/fonts/t
 ype1/public/lm/lmtt10.pfb>
-Output written on DocAIRA.pdf (10 pages, 252780 bytes).
+Output written on DocAIRA.pdf (10 pages, 253047 bytes).
 PDF statistics:
  185 PDF objects out of 1000 (max. 8388607)
  160 compressed objects within 2 object streams
