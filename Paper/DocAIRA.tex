@@ -6,6 +6,8 @@
 \usepackage{listings}
 \usepackage{afterpage}
 \usepackage{pgfplots}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
 \pgfdeclarelayer{background}
 \pgfdeclarelayer{foreground}
 \pgfsetlayers{background,main,foreground}
@@ -57,13 +59,44 @@
 		\vfill % Fill the rest of the page with whitespace
 	\end{titlepage}
 \newpage
+\section*{Resum}
+En el següent document s'explica la metodologia emprada per a la cerca de Bàrcenas en un món de NxN, on l'agent que realitza la cerca rebrà informació per part de tres fonts diferents, la primera un Sensor d'Olor que indicarà si Bàrcenas està en posicions adjacents, Rajoy que podrà donar indicacions sobre on pot estar Bàrcenas i per últim Cospedal que ens indicarà si la informació donada per Rajoy és correcta o no, per tal de realitzar aquesta cerca es fa servir lògica de primer ordre, i el llenguatge a utilitzar serà Prolog (encara que el programa en Prolog es programa amb un programa en Python).
+\thispagestyle{empty}
+\clearpage
 \thispagestyle{empty}
 \newpage
 \tableofcontents
-\listoffigures
 \newpage
-\clearpage
 \pagenumbering{arabic}
+\section{Execució del Programa:}
+Per a executar el programa en Prolog inicialment s'ha d'executar el programa en Python, ja que serà aquest que, depenent de les dimensions, crearà un programa en Prolog que s'adeqüi.\\\\
+Execució Python:\\
+
+./findingBarcenas.py \textless N, Seqüència de Passos\textgreater \\\\
+On:\\
+N: Indica la mida del món en el qual em de buscar a Bàrcenas, és un nombre natural.\\
+Seqüència de Passos: és una llista formada de llistes que contenen els passos que s'han de seguir amb el següent format.\\\\
+
+[X,Y, SmellsXY,MaXY, CaXY]\\\\
+On:\\
+X: Indica la coordenada de les X del món.\\
+Y: Indica la coordenada de les Y del món.\\
+SmellsXY: Indica la resposta que dóna el detector d'olor, 1 si Bàrcenas està en una de les posicions adjacents 0 si no.\\
+MaXY: Indica la resposta donada per Rajoy sobre els possibles estats de Bàrcenas, 0 per indicar que es troba a l'esquerra, 1 per indicar que es trobi o en la mateixa columna o a la dreta de la seva posició i -1 si encara no l'hem trobat.\\
+CaXY: Indica la resposta donada per Cospedal sobre si Rajoy diu la veritat, 0 per indicar que no menteix, 1 per indicar que menteix i -1 en cas que no l'hàgim trobat.\\\\
+Un cop finalitzada l'execució d'aquest es realitzarà l'execució del programa en Prolog donant la solució així com cada un dels estats del món després de cada pas, a més a més es generà un fitxer anomenat findingBarcenasNxN.pl, on N és la dimensió d'aquell món, aquest contindrà el codi necessari per executar qualsevol seqüència de passos sempre que les posicions X Y que s'indiquin als passos corresponguin a les dimensions del món, és a dir 1 $\leq$ X, Y $\leq$ N, és important tenir en compte les dimensions, ja que sinó, no funcionarà.\\
+Execució del programa en Prolog.\\
+\begin{verbatim}
+swipl -q -f findingBarcenasNxN.pl -t 'execofSteps([Món],
+[Seqüència de passos],_,_,_,_)'
+\end{verbatim}
+On:
+Món: Taulell que representa el món en el qual hem de trobar a Bàrcenas amb el següent format.\\
+\begin{verbatim}
+[[x1y1,x1y2,...,x1yN],[x2y1,x2y2,...,x2yN],[x3y1,x3y2,...,x3yN]
+,...,[xNy1,xNy2,...,xNyN]]
+\end{verbatim}
+Seqüència de passos: Passos que es duran a terme durant la cerca, amb el format prèviament anomenat.
 \section{Funcions:}
 \subsection{execSeqofSteps:}
 Funció recursiva que cridarà updateSequenceOfSteps per tal d'executar tots els passos, aquesta finalitzarà quan la llista de passos es quedi buida.\\
@@ -74,6 +107,7 @@ Funció recursiva que cridarà updateSequenceOfSteps per tal d'executar tots els
 \item FinalLocs: Matriu NxN actualitzada amb les noves possibles localitzacions de Bàrcenas després d'executar cada un dels passos de la llista.
 \item Pas[]: Aquests arguments ens permeten guardar la Y on es va trobar Rajoy, la seva resposta així com la resposta de Cospedal.
 \end{itemize}
+\newpage
 \subsection{updateSequenceOfSteps:}
 Funció que s'encarrega de processar el pas passat per argument, aquest executarà totes les altres funcions per tal de realitzar aquest procés.\\
 \textbf{Arguments:}
@@ -102,33 +136,38 @@ Realitza la intersecció del primer paràmetre PrevLocs/MidLocs amb la del segon
 \item MidLocs/FinalLocs: Resultats d'haver realitzat les interseccions.
 \end{itemize}
 \subsection{rajoyInfo:}
+Es realitza l'actualització de l'estat de Rajoy, la columna on s'ha trobat i la seva resposta, en cas que aquest s'hagi trobat en cas contrari es continuarà amb la que ja es tenia fins al moment.
 \textbf{Arguments:}
 \begin{itemize}
-\item PasY: Columna on s'ha trobat o no previament a Rajoy.
-\item PasM: Resposta prévia de Rajoy en cas de que s'hagi trobat en cas contrari -1.
-\item Y: Columna actual en la que podem haber trobat a Rajoy o no.
-\item M: Resposta actual que ens pot haber donat Rajoy o en cas contrari -1.
+\item PasY: Columna on s'ha trobat o no prèviament a Rajoy.
+\item PasM: Resposta prèvia de Rajoy en cas que s'hagi trobat en cas contrari -1.
+\item Y: Columna actual en la qual podem haver trobat a Rajoy o no.
+\item M: Resposta actual que ens pot haver donat Rajoy o en cas contrari -1.
 \item FutY: Actualització de la posició on hem trobat a Rajoy si l'hem trobat.
 \item FutM: Actualització de la resposta que ens ha donat si ens l'ha donat, en cas contrari -1.
 \end{itemize}
 \subsection{cospedalInfo:}
+Es realitza l'actualització de l'estat de Cospedal, la seva resposta, en cas que aquesta s'hagi trobat, en cas contrari es continuarà amb el que ja es tenia fins aquell moment.
 \textbf{Arguments:}
 \begin{itemize}
-\item PasC: Resposta prèvia de Cospedal si s'habia trobat prèviament en cas contrari -1.
-\item C: Resposta actual que ens pot haber donat Cospedal en cas de trobar-la en cas contrarí -1.
-\item FutC: Actualització del estat de la respota de Cospedal en cas de que hi hagí canvi, si encara no s'ha trobat continuará sent -1
+\item PasC: Resposta prèvia de Cospedal si s'havia trobat prèviament en cas contrari -1.
+\item C: Resposta actual que ens pot haver donat Cospedal en cas de trobar-la en cas contrari -1.
+\item FutC: Actualització de l'estat de la resposta de Cospedal en cas que hi hagi canvi, si encara no s'ha trobat, continuarà sent -1.
 \end{itemize}
+
 \subsection{rajoyAndCospedal:}
+Donades les actualitzacions de les dades de Rajoy i Cospedal, s'obtenen les possibles localitzacions de Bàrcenas i amb les que posteriorment farem la intersecció amb les obtingudes pel detector d'olor per tal d'obtenir les noves localitzacions.
 \textbf{Arguments:}
 \begin{itemize}
-\item FutY:
-\item FutM:
-\item FutC:
-\item RCLocs:
+\item FutY: Posició actualitzada de la posició on hem trobat a Rajoy.
+\item FutM: Resposta actualitzada donada per Rajoy o -1.
+\item FutC: Resposta actualitzada donada per Cospedal o -1.
+\item RCLocs: Localitzacions possibles de Bàrcenas donada la informació rebuda.
 \end{itemize}
 \subsection{writeWorld:}
+Aquesta funció només mostra per pantalla el món que se li passa per argument línia a línia.
 \textbf{Arguments:}
 \begin{itemize}
-\item World:
+\item World: Món amb les possibles localitzacions de Bàrcenas després de realitzar un pas que passarà a ser mostrat per pantalla.
 \end{itemize}
 \end{document}
