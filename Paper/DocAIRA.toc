@@ -9,3 +9,6 @@
 \contentsline {subsection}{\numberline {2.6}cospedalInfo:}{5}{subsection.2.6}
 \contentsline {subsection}{\numberline {2.7}rajoyAndCospedal:}{5}{subsection.2.7}
 \contentsline {subsection}{\numberline {2.8}writeWorld:}{5}{subsection.2.8}
+\contentsline {section}{\numberline {3}Funcionament del codi en Prolog:}{6}{section.3}
+\contentsline {section}{\numberline {4}Tests:}{7}{section.4}
+\contentsline {section}{\numberline {5}Bibliografia:}{7}{section.5}

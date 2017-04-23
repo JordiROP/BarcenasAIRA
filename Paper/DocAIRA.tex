@@ -1,4 +1,5 @@
 \documentclass[11pt]{article}
+\usepackage[hyphens]{url}
 \usepackage{ragged2e}
 \usepackage[utf8]{inputenc}
 \usepackage[catalan]{babel}
@@ -170,4 +171,37 @@ Aquesta funció només mostra per pantalla el món que se li passa per argument 
 \begin{itemize}
 \item World: Món amb les possibles localitzacions de Bàrcenas després de realitzar un pas que passarà a ser mostrat per pantalla.
 \end{itemize}
+\newpage
+\section{Funcionament del codi en Prolog:}
+La primera crida que es farà serà a execSeqofSteps, aquesta, es crida recursivament per tal de recorre tota la llista de passos que es passen per arguments, a cada crida s'aniran actualitzant les variables PasY, PasM i PasC, així com FinalLocs, aquestes es passaran a updateSequenceOfSteps com s'ha explicat prèviament serà la que executarà tots els mètodes necessaris per a realitzar la cerca.\\\\
+UpdateSequenceOfSteps:
+\begin{enumerate}
+\item isBarcenasAround:\\
+Aquí tenim tots els estats possibles per a cada situació que ens podem trobar al món amb les dimensions especificades a l'hora de fer la crida al programa de Python. Aquí es descarten les opcions depenent de la posició X, Y i la resposta que ens dóna el detector d'olor S. Així es guardarà com a resultat el món en el qual segons el detector d'olor hauria d'estar Bàrcenas.
+\item intersectLocs:\\
+Funció proporcionada al fitxer testSimpleBarcenasLocation.pl, rebrà el món original passat a UpdateSequenceOfSteps i el món obtingut per isBarcenasAround per tal de realitzar la intersecció d'aquests dos obtenint el món de Bàrcenas amb les posicions actualitzades.
+\item rajoyInfo:\\
+S'actualitza l'estat de Rajoy, la columna on s'ha trobat i la resposta obtinguda en cas que s'hagi trobat, si no es conservarà la resposta obtinguda prèviament o -1 en cas que no s'hagi trobat.
+\item cospedalInfo:
+Es realitza la mateixa actualització realitzada per Rajoy però ara per Cospedal, en aquest cas no ens cal actualitzar la columna, ja que només ens importa la seva resposta sobre si Mariano menteix o no.
+\item rajoyAndCospedal:
+Un cop actualitzada la informació sobre Rajoy i Cospedal procedim a obtenir el món depenent en la resposta d'aquests, en cas que no es tingui la resposta dels dos o falti la d'un s'obtindrà el món original.
+\newpage
+\item IntersectLocs:
+Obtingut el món segons la resposta obtinguda per Rajoy i Cospedal podem procedir a realitzar la intersecció del món obtingut amb la resposta del detector d'olor i el món obtingut al pas anterior, d'aquesta manera obtenim un nou món actualitzat segons les respostes de totes les fonts d'informació possibles.
+\item reverse:
+S'inverteix el món obtingut prèviament per tal d'imprimir-lo de manera correcta, aquesta funció és de Prolog.
+\item write:
+S'imprimeix la informació del pas que s'ha dut a terme.
+\item writeWorld:
+S'imprimeix el món en forma de taulell de NxN.
+\end{enumerate}
+Com s'ha dit anteriorment aquest procés es repetirà fins que la llista de passos passats per arguments es quedi buida.
+\section{Tests:}
+Tal com es demana s'adjunta un programa en Python anomenat test.py, aquest es compon de 4 tests per al programa Prolog on s'executen diferents passos per a diferents programes findingBarcenas.py, aquests programes a més de diferents passos estan fets per a mides diferents de manera que es pot comprovar que funciona per a diferents mides, concretament es proven per a mons de mida 3$x$3, 4$x$4, 5$x$5, 6$x$6, al final de cada test es mostra el resultat final al qual s'hauria d'arribar en finalitzar l'execució de Prolog.
+\section{Bibliografia:} 
+\url{http://stackoverflow.com/questions/12939425/prolog-access-specific-member-of-list}\\
+\url{https://cv.udl.cat/access/content/group/102040-1617/labs/inference/cp1/testSimpleBarcenasLocation.pl}\\
+\url{http://stackoverflow.com/questions/11525470/os-system-commands}\\
+\url{https://docs.python.org/2/library/os.html}
 \end{document}
