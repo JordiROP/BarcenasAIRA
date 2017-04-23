@@ -42,7 +42,7 @@ if __name__ == '__main__' :
     print "Expected result Test3:"
     print "0 0 1 1 1"
     print "0 0 1 1 1"
-    print "0 0 1 1 1"
+    print "0 0 0 1 1"
     print "0 0 0 0 1"
     print "0 0 0 1 1"
 
