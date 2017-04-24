@@ -11,4 +11,5 @@
 \contentsline {subsection}{\numberline {2.8}writeWorld:}{5}{subsection.2.8}
 \contentsline {section}{\numberline {3}Funcionament del codi en Prolog:}{6}{section.3}
 \contentsline {section}{\numberline {4}Tests:}{7}{section.4}
-\contentsline {section}{\numberline {5}Bibliografia:}{7}{section.5}
+\contentsline {section}{\numberline {5}Informaci\IeC {\'o} Adicional:}{8}{section.5}
+\contentsline {section}{\numberline {6}Bibliografia:}{8}{section.6}
