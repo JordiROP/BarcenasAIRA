@@ -28,8 +28,7 @@ The goal of this work is to develop an intelligent agent for the Barcenas World
 [SWI-Prolog](http://www.swi-prolog.org/) - Result of the execution of the python program and the actual program that will do the job.
 
 ## Authors
-
-* **Jordi Onrubia** - * Programmer * - [JordiROP](https://github.com/JordiROP)
+* **Jordi Ricard Onrubia Palacios** - *Programming* - [JordiROP](https://github.com/JordiROP)
 
 ## License
 
