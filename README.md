@@ -29,7 +29,7 @@ The goal of this work is to develop an intelligent agent for the Barcenas World
 
 ## Authors
 
-* **Jordi Onrubia** - *Implement code* - [JordiROP](https://github.com/JordiROP)
+* **Jordi Onrubia** - * Programmer * - [JordiROP](https://github.com/JordiROP)
 
 ## License
 
